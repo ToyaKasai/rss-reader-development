@@ -1,25 +1,16 @@
 {
-  // astro周りの設定
   "prettier.documentSelectors": ["**/*.astro"],
   "[astro]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-
-  // eslint flat configを有効化
   "eslint.experimental.useFlatConfig": true,
-
-  // stylelint周りの設定
   "css.validate": false,
   "less.validate": false,
   "scss.validate": false,
-  "stylelint.configFile": "stylelint.config.js",
-  "stylelint.validate": ["css", "scss"],
-
-  // editor周り
+  "stylelint.configFile": "./stylelint.config.js",
+  "stylelint.validate": ["css", "scss", "astro"],
   "editor.codeActionsOnSave": {
     "source.fixAll.stylelint": "explicit"
   },
-
-  // カスタム辞書
   "cSpell.words": ["stylelint"]
 }
