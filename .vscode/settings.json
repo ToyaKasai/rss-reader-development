@@ -4,6 +4,15 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "eslint.experimental.useFlatConfig": true,
+  "eslint.validate": [
+    "html",
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "astro"
+  ],
+  "typescript.preferences.importModuleSpecifier": "non-relative",
   "css.validate": false,
   "less.validate": false,
   "scss.validate": false,
