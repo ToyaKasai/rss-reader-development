@@ -18,5 +18,21 @@ export default eslintTs.config(
       },
     },
   },
+  {
+    files: ['src/**/*.ts', 'src/**/*.astro'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['../*'],
+              message: '@エイリアスから参照してください',
+            },
+          ],
+        },
+      ],
+    },
+  },
   eslintConfigPrettier,
 );
