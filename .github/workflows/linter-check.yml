@@ -1,0 +1,65 @@
+name: Linter check
+
+on:
+  pull_request:
+    paths:
+      - '**.js'
+      - '**.ts'
+      - '**.astro'
+      - '**.scss'
+      - .prettierrc.json
+      - eslint.config.js
+      - stylelint.config.js
+      - yarn.lock
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          list-files: none
+          filters: |
+            eslint:
+              - '**.js'
+              - '**.ts'
+              - '**.astro'
+              - eslint.config.js
+              - yarn.lock
+            stylelint:
+              - '**.scss'
+              - '**.astro'
+              - stylelint.config.js
+              - yarn.lock
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: package.json
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - if: steps.filter.outputs.eslint == 'true'
+        name: Run ESLint
+        run: yarn lint:js
+
+      - if: steps.filter.outputs.stylelint == 'true'
+      - name: Run Stylelint fix
+        run: yarn lint:css
+
+      - name: Run Prettier fix
+        run: yarn format
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: fix:Fixed auto-fixable ESLint Stylelint Prettier errors by github-actions
+          commit_user_name: ${{ github.actor }}
+          commit_user_email: ${{ github.actor }}@users.noreply.github.com
