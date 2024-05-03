@@ -1,9 +1,9 @@
 name: Linter check
 
 on:
+  workflow_dispatch:
   pull_request:
     paths:
-      - '**.js'
       - '**.ts'
       - '**.astro'
       - '**.scss'
@@ -20,26 +20,28 @@ jobs:
       group: ${{ github.workflow }}-${{ github.ref }}
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - uses: dorny/paths-filter@v2
-        id: filter
+      - name: Filter Path
+        uses: dorny/paths-filter@v2
+        id: filter-path
         with:
           list-files: none
           filters: |
             eslint:
-              - '**.js'
               - '**.ts'
               - '**.astro'
               - eslint.config.js
               - yarn.lock
             stylelint:
-              - '**.scss'
               - '**.astro'
+              - '**.scss'
               - stylelint.config.js
               - yarn.lock
 
-      - uses: actions/setup-node@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
           node-version-file: package.json
           cache: yarn
@@ -47,11 +49,11 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - if: steps.filter.outputs.eslint == 'true'
+      - if: steps.filter-path.outputs.eslint == 'true'
         name: Run ESLint
         run: yarn lint:js
 
-      - if: steps.filter.outputs.stylelint == 'true'
+      - if: steps.filter-path.outputs.stylelint == 'true'
         name: Run Stylelint fix
         run: yarn lint:css
 
@@ -60,6 +62,6 @@ jobs:
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: fix:Fixed auto-fixable ESLint Stylelint Prettier errors by github-actions
+          commit_message: 'fix: auto-fixable ESLint Stylelint Prettier errors by github-actions'
           commit_user_name: ${{ github.actor }}
           commit_user_email: ${{ github.actor }}@users.noreply.github.com
