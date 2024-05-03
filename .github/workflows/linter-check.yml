@@ -52,7 +52,7 @@ jobs:
         run: yarn lint:js
 
       - if: steps.filter.outputs.stylelint == 'true'
-      - name: Run Stylelint fix
+        name: Run Stylelint fix
         run: yarn lint:css
 
       - name: Run Prettier fix
