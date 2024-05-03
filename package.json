@@ -10,7 +10,8 @@
     "astro": "astro",
     "lint:js": "eslint --fix \"./src/**/*.{js,ts,astro}\"",
     "lint:css": "stylelint --fix \"./src/**/*.{css,scss,astro}\"",
-    "format": "prettier --write \"./src/**.*.{js,ts,astro,json}\""
+    "format": "prettier --write \"./src/**.*.{js,ts,astro,json}\"",
+    "prepare": "husky"
   },
   "dependencies": {
     "@astrojs/check": "^0.5.10",
@@ -19,11 +20,14 @@
     "typescript": "^5.4.5"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
     "@eslint/js": "^9.1.1",
     "eslint": "^9.1.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-astro": "^1.0.3",
     "globals": "^15.1.0",
+    "husky": "^9.0.11",
     "postcss-html": "^1.6.0",
     "prettier": "^3.2.5",
     "prettier-plugin-astro": "^0.13.0",
